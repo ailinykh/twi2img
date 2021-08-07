@@ -14,7 +14,12 @@ module.exports = function makeImageEndpointHandler({ twitterApi }) {
   async function getImage(httpRequest) {
     const { username, tweetId } = httpRequest.pathParams
     console.info(`processing:: https://twitter.com/${username}/status/${tweetId}`)
-    const path = `${config.working_dir}/${username}-${tweetId}.png`
+    const basedir = `${config.working_dir}/${username}`
+    const path = `${basedir}/${tweetId}.png`
+
+    if (!fs.existsSync(basedir)) {
+      fs.mkdirSync(basedir, { recursive: true })
+    }
 
     if (!fs.existsSync(path)) {
       await twitterApi.getImage({ username, tweetId, path })
