@@ -18,11 +18,18 @@ module.exports = async function makeFile({ username, tweetId, path }) {
 
   // await page.screenshot({ path: `${path}-original.png` });
 
-  const tweet = await page.$('section > div > div > div > div > div > article')
-  if (tweet == null) {
+  const a = await page.$(`a[href="/${username}/status/${tweetId}"]`)
+
+  // remove Reply/Retweet/Like/Share
+  const [div] = await a.$x('../../../..');
+  await div.evaluate((node) => node.removeChild(node.lastChild))
+
+  // find nearest article
+  const [article] = await a.$x('ancestor::article');
+  if (article == null) {
       throw('article not found in DOM')
   }
-  await tweet.screenshot({ path });
+  await article.screenshot({ path });
   await browser.close();
 
   return path
