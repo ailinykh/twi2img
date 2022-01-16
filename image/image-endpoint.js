@@ -1,5 +1,5 @@
 const fs = require('fs')
-const config = require('../lib/config')
+const makeImagePath = require('./image-path')
 
 module.exports = function makeImageEndpointHandler({ twitterApi }) {
   return async function handler(httpRequest) {
@@ -14,12 +14,7 @@ module.exports = function makeImageEndpointHandler({ twitterApi }) {
   async function getImage(httpRequest) {
     const { username, tweetId } = httpRequest.pathParams
     console.info(`processing:: https://twitter.com/${username}/status/${tweetId}`)
-    const basedir = `${config.working_dir}/${username}`
-    const path = `${basedir}/${tweetId}.png`
-
-    if (!fs.existsSync(basedir)) {
-      fs.mkdirSync(basedir, { recursive: true })
-    }
+    const path = makeImagePath({ username, tweetId })
 
     if (!fs.existsSync(path)) {
       await twitterApi.getImage({ username, tweetId, path })
