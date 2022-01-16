@@ -22,7 +22,7 @@ module.exports = function makeImageEndpointHandler({ twitterApi }) {
       await twitterApi.getImage({ username, tweetId, path })
     }
 
-    const port = !config.port || config.port == '80' ? '' : ':' + config.port
+    const port = !config.port || config.port == '80' || !process.env.isDevelopment ? '' : ':' + config.port
     const image = makeImage({
       username,
       tweetId,

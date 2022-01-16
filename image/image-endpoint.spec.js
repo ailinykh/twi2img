@@ -24,7 +24,7 @@ describe('image endpoint', () => {
     const data = {
       username,
       tweetId,
-      url: `http://${config.host}:${config.port}/${username}/${tweetId}.png`
+      url: `http://${config.host}${process.env.isDevelopment ? ':' + config.port : ''}/${username}/${tweetId}.png`
     }
 
     const res = await handle(req)
@@ -45,7 +45,7 @@ describe('image endpoint', () => {
     const data = {
       username,
       tweetId,
-      url: `http://${config.host}:${config.port}/${username}/${tweetId}.png`
+      url: `http://${config.host}${process.env.isDevelopment ? ':' + config.port : ''}/${username}/${tweetId}.png`
     }
 
     await createFile(filename, 'it works')
