@@ -1,6 +1,8 @@
 const Koa = require('koa')
 const Router = require('@koa/router')
+const serve = require('koa-static')
 
+const config = require('./lib/config')
 const adaptRequest = require('./helpers/adapt-request')
 const handleImageRequests = require('./image')
 
@@ -11,6 +13,8 @@ if (process.env.isDevelopment) {
     const logger = require('koa-logger')
     app.use(logger())
 }
+
+app.use(serve(config.working_dir))
 
 router.get('/:username/:tweetId', (ctx) => {
   ctx.req.params = ctx.req.params || ctx.params
