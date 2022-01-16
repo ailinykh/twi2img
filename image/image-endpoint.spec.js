@@ -21,10 +21,16 @@ describe('image endpoint', () => {
       fs.unlinkSync(filename)
     }
 
+    const data = {
+      username,
+      tweetId,
+      url: `http://${config.host}:${config.port}/${username}/${tweetId}.png`
+    }
+
     const res = await handle(req)
 
-    expect(res.headers['Content-Type']).toBe('image/png')
-    expect(res.data.toString()).toBe("success")
+    expect(res.headers['Content-Type']).toBe('application/json')
+    expect(res.data).toBe(JSON.stringify(data))
   })
 
   it('returns local file if any', async () => {
@@ -36,10 +42,16 @@ describe('image endpoint', () => {
       pathParams: { username, tweetId }
     }
 
+    const data = {
+      username,
+      tweetId,
+      url: `http://${config.host}:${config.port}/${username}/${tweetId}.png`
+    }
+
     await createFile(filename, 'it works')
     const res = await handle(req)
 
-    expect(res.data.toString()).toBe("it works")
+    expect(res.data).toBe(JSON.stringify(data))
   })
 })
 

@@ -1,5 +1,7 @@
 const fs = require('fs')
 const makeImagePath = require('./image-path')
+const makeImage = require('./image')
+const config = require('../lib/config')
 
 module.exports = function makeImageEndpointHandler({ twitterApi }) {
   return async function handler(httpRequest) {
@@ -20,15 +22,19 @@ module.exports = function makeImageEndpointHandler({ twitterApi }) {
       await twitterApi.getImage({ username, tweetId, path })
     }
 
-    const result = fs.readFileSync(path)
+    const port = !config.port || config.port == '80' ? '' : ':' + config.port
+    const image = makeImage({
+      username,
+      tweetId,
+      url: `http://${config.host}${port}/${username}/${tweetId}.png`
+    })
 
     return {
       headers: {
-        'Content-Type': 'image/png'
+        'Content-Type': 'application/json'
       },
       statusCode: 200,
-      // data: JSON.stringify(result)
-      data: result
+      data: JSON.stringify(image)
     }
   }
 }
