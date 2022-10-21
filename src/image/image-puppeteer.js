@@ -17,6 +17,12 @@ module.exports = async function makeFile({username, tweetId, path}) {
 
   // await page.screenshot({ path: `${path}-original.png` });
 
+  // remove login and cookie bar
+  await page.evaluate(() => {
+    let layers = document.querySelector('#layers')
+    layers.parentNode.removeChild(layers)
+  })
+
   const a = await page.$(`a[href="/${username}/status/${tweetId}"]`)
 
   // remove Reply/Retweet/Like/Share
