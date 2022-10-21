@@ -40,6 +40,6 @@ jobs:
       run: |
         echo "$SSH_IDENTITY_KEY" > identity
         chmod 600 identity
-        ssh -i identity -o StrictHostKeyChecking=no root@mail.ailinykh.com "/bin/bash ./${{ github.repository }}/deploy_app.sh $TAG"
+        ssh -i identity -o StrictHostKeyChecking=no root@twi2img.ailinykh.com "/bin/bash ./${{ github.repository }}/deploy_app.sh $TAG"
       env:
         SSH_IDENTITY_KEY: ${{ secrets.SSH_IDENTITY_KEY }}
