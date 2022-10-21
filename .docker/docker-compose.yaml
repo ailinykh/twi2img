@@ -1,0 +1,12 @@
+version: '2'
+services:
+  message-broker:
+    image: rabbitmq:3-management-alpine
+    container_name: message-broker
+    ports:
+      - 5672:5672 # for sender and consumer connections
+      - 15672:15672 # for serve RabbitMQ GUI
+    volumes:
+      - ./rabbitmq-data/data/:/var/lib/rabbitmq
+      - ./rabbitmq-data/log/:/var/log/rabbitmq
+    restart: always

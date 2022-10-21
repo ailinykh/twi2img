@@ -1,4 +1,5 @@
 .env
+.docker/rabbitmq-data
 coverage
 node_modules
 *.log
