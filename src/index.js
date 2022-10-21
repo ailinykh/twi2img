@@ -9,7 +9,9 @@ const makeFile = require('./image/image-puppeteer')
 app.listen(config.port, () => {
   console.info(`App is running at http://${config.host}:${config.port}`)
 
-  run({ handleMessage: async ({ username, tweetId }) => {
-    return await createImage({ username, tweetId, makeFile })
-  }})
+  run({
+    handleMessage: async ({username, tweetId}) => {
+      return await createImage({username, tweetId, makeFile})
+    },
+  })
 })

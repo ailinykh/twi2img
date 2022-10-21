@@ -1,6 +1,6 @@
 const createImage = require('./image-factory')
 
-module.exports = function makeImageEndpointHandler({ twitterApi }) {
+module.exports = function makeImageEndpointHandler({twitterApi}) {
   return async function handler(httpRequest) {
     switch (httpRequest.method) {
       case 'GET':
@@ -11,21 +11,23 @@ module.exports = function makeImageEndpointHandler({ twitterApi }) {
   }
 
   async function getImage(httpRequest) {
-    const { username, tweetId } = httpRequest.pathParams
-    console.info(`processing:: https://twitter.com/${username}/status/${tweetId}`)
+    const {username, tweetId} = httpRequest.pathParams
+    console.info(
+      `processing:: https://twitter.com/${username}/status/${tweetId}`,
+    )
 
     const image = await createImage({
       username,
       tweetId,
-      makeFile: twitterApi.getImage
+      makeFile: twitterApi.getImage,
     })
 
     return {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       statusCode: 200,
-      data: JSON.stringify(image)
+      data: JSON.stringify(image),
     }
   }
 }

@@ -3,7 +3,7 @@ const path = require('path')
 const config = require('../lib/config')
 const handle = require('.')
 
-jest.mock('./image-puppeteer', () => async ({ path }) => {
+jest.mock('./image-puppeteer', () => async ({path}) => {
   await createFile(path, 'success')
 })
 
@@ -14,7 +14,7 @@ describe('image endpoint', () => {
     const filename = `${config.working_dir}/${username}/${tweetId}.png`
     const req = {
       method: 'GET',
-      pathParams: { username, tweetId }
+      pathParams: {username, tweetId},
     }
 
     if (fs.existsSync(filename)) {
@@ -24,7 +24,9 @@ describe('image endpoint', () => {
     const data = {
       username,
       tweetId,
-      url: `http://${config.host}${process.env.isDevelopment ? ':' + config.port : ''}/${username}/${tweetId}.png`
+      url: `http://${config.host}${
+        config.port ? ':' + config.port : ''
+      }/${username}/${tweetId}.png`,
     }
 
     const res = await handle(req)
@@ -39,13 +41,15 @@ describe('image endpoint', () => {
     const filename = `${config.working_dir}/${username}/${tweetId}.png`
     const req = {
       method: 'GET',
-      pathParams: { username, tweetId }
+      pathParams: {username, tweetId},
     }
 
     const data = {
       username,
       tweetId,
-      url: `http://${config.host}${process.env.isDevelopment ? ':' + config.port : ''}/${username}/${tweetId}.png`
+      url: `http://${config.host}${
+        config.port ? ':' + config.port : ''
+      }/${username}/${tweetId}.png`,
     }
 
     await createFile(filename, 'it works')

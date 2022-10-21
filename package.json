@@ -4,8 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
+    "format": "prettier --write src",
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
     "test": "jest"
   },
   "dependencies": {
@@ -19,6 +20,7 @@
   "devDependencies": {
     "jest": "^27.0.6",
     "koa-logger": "^3.2.1",
-    "nodemon": "^2.0.12"
+    "nodemon": "^2.0.12",
+    "prettier": "^2.7.1"
   }
 }

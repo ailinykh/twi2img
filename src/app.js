@@ -10,8 +10,8 @@ const app = new Koa()
 const router = new Router().prefix('/get')
 
 if (process.env.isDevelopment) {
-    const logger = require('koa-logger')
-    app.use(logger())
+  const logger = require('koa-logger')
+  app.use(logger())
 }
 
 app.use(serve(config.working_dir))
@@ -20,12 +20,12 @@ router.get('/:username/:tweetId', (ctx) => {
   ctx.req.params = ctx.req.params || ctx.params
   const httpRequest = adaptRequest(ctx.req)
   return handleImageRequests(httpRequest)
-    .then(({ headers, statusCode, data }) => {
+    .then(({headers, statusCode, data}) => {
       ctx.set(headers)
       ctx.status = statusCode
       ctx.body = data
     })
-    .catch(e => {
+    .catch((e) => {
       console.log('exception handler')
       console.error(e)
       ctx.status = 500
